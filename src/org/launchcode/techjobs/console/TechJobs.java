@@ -3,6 +3,7 @@ package org.launchcode.techjobs.console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Created by LaunchCode
@@ -109,8 +110,25 @@ public class TechJobs {
     }
 
     // Print a list of jobs
+    // 1, 0 ArrayList of HashMaps. ArrayList someJobs, HashMaps no names
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
-
-        System.out.println("printJobs is not implemented yet");
+        // case: 0 jobs
+        if (someJobs.size() == 0) {
+            System.out.println("They took r jerbs!");
+            // case 1: we have jerbs
+        } else {
+            // System.out.println(someJobs.size()); // 98
+            Set<String> keys = null;
+            for (int i = 0; i <= someJobs.size() - 1; ++i) { // loop jobs
+                HashMap map = someJobs.get(i); // store current ArrayList i into a HashMap map
+                keys = map.keySet();           // create set that holds all keys (could do the same with values)
+                System.out.println("*****");
+                for (String key : keys) {      // nested loop
+                    System.out.println(key + ": " + map.get(key)); // print key and value by way of nested loop
+                }
+            }
+            System.out.println("*****");
+        }
     }
+
 }
