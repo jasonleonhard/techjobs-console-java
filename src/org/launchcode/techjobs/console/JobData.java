@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by LaunchCode
@@ -66,22 +67,32 @@ public class JobData {
      * @return List of all jobs matching the criteria
      */
     public static ArrayList<HashMap<String, String>> findByKeyAndValue(String key, String value) {
-
         // load data, if not already loaded
         loadData();
-
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
-
         for (HashMap<String, String> row : allJobs) {
-
             String aValue = row.get(key);
-
             if (aValue.contains(value)) {
                 jobs.add(row);
             }
         }
-
         return jobs;
+    }
+// 0, 0 search, all. there should be 3 jobs in portland, one has the word Portland listed twice
+    //public static ArrayList<HashMap<String, String>> findByKeyAndValue(String key, String value) { // og
+    public static ArrayList<HashMap<String, String>> findByValue(String value) { // 1 or   public static ArrayList<HashMap<String, String>> findByValue(String value) { // 2
+        loadData();                                         // load data, if not already loaded
+        Set<String> keys = null;
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+        for (int i = 0; i <= allJobs.size() - 1; ++i) {     // loop jobs or use this
+            HashMap<String, String> map = allJobs.get(i);   // or this both work  HashMap map = allJobs.get(i);  // store current ArrayList i into a HashMap map
+            keys = map.keySet();                            // create set that holds all keys (could do the same with values)
+            if (map.containsValue(value)) {                 // if (row.containsKey(key)) {
+                jobs.add(map);                              // add them for real
+                // System.out.println(map);                 // .. {position type=Web - Front End, name=Junior Web Developer, employer=Cozy, location=Portland, core competency=Ruby}..
+            }
+        }
+        return jobs;                                        // ...***** .. position type: Web - Front End ... format similar to listing
     }
 
     /**
@@ -124,5 +135,7 @@ public class JobData {
             e.printStackTrace();
         }
     }
+
+
 
 }
