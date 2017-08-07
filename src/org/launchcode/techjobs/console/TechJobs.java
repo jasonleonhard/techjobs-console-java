@@ -47,10 +47,9 @@ public class TechJobs {
                 // How does the user want to search (e.g. by skill or employer)
                 String searchField = getUserSelection("Search by:", columnChoices);
                 // What is their search term?
-                System.out.println("\nSearch term: "); // Portland... should return 3 records
+                System.out.println("\nSearch term: ");
                 String searchTerm = in.nextLine();
                 if (searchField.equals("all")) {
-                    System.out.println("CALLING: findByValue(searchTerm)");
                     printJobs(JobData.findByValue(searchTerm));
                 } else {
                     printJobs(JobData.findByKeyAndValue(searchField, searchTerm));
