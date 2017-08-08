@@ -10,7 +10,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by LaunchCode
@@ -72,27 +71,41 @@ public class JobData {
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
         for (HashMap<String, String> row : allJobs) {
             String aValue = row.get(key);
-            if (aValue.contains(value)) {
+        // Legacy Code Changed:
+        //    if (aValue.contains(value)) {
+        // Case Insensitive version
+            if (aValue.equalsIgnoreCase(value)) {
                 jobs.add(row);
             }
         }
         return jobs;
     }
-// 0, 0 search, all. there should be 3 jobs in portland, one has the word Portland listed twice
-    //public static ArrayList<HashMap<String, String>> findByKeyAndValue(String key, String value) { // og
-    public static ArrayList<HashMap<String, String>> findByValue(String value) { // 1 or   public static ArrayList<HashMap<String, String>> findByValue(String value) { // 2
-        loadData();                                         // load data, if not already loaded
-        Set<String> keys = null;
+
+    // 0 search, 0 all
+    // load data, if not already loaded
+    // create AL jobs
+    // loop jobs and create new HM for each i in AL
+    // loop HashMap by Entry (a key value pair in one class) allowing looping over the HashMap.entrySet()
+    // store current ArrayList i into a HashMap map
+    // if HM j matches user value
+    // System.out.println("We found a match for: " + s1);
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+
+        loadData();
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
-        for (int i = 0; i <= allJobs.size() - 1; ++i) {     // loop jobs or use this
-            HashMap<String, String> map = allJobs.get(i);   // or this both work  HashMap map = allJobs.get(i);  // store current ArrayList i into a HashMap map
-            keys = map.keySet();                            // create set that holds all keys (could do the same with values)
-            if (map.containsValue(value)) {                 // if (row.containsKey(key)) {
-                jobs.add(map);                              // add them for real
-                // System.out.println(map);                 // .. {position type=Web - Front End, name=Junior Web Developer, employer=Cozy, location=Portland, core competency=Ruby}..
+
+        for (int i = 0; i <= allJobs.size() - 1; ++i) {
+            HashMap<String, String> map = allJobs.get(i);
+
+            for (HashMap.Entry<String, String> j : allJobs.get(i).entrySet()) {
+
+                if (j.getValue().equalsIgnoreCase(value)) {
+                    jobs.add(map);
+                    // System.out.println(j.getKey() + "=" + j.getValue()); // ~ j
+                }
             }
         }
-        return jobs;                                        // ...***** .. position type: Web - Front End ... format similar to listing
+        return jobs;
     }
 
     /**
@@ -135,7 +148,5 @@ public class JobData {
             e.printStackTrace();
         }
     }
-
-
 
 }
