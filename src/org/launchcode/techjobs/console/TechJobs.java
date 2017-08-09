@@ -38,7 +38,9 @@ public class TechJobs {
                     ArrayList<String> results = JobData.findAll(columnChoice);
                     System.out.println("\n*** All " + columnChoices.get(columnChoice) + " Values ***");
                     // Print list of skills, employers, etc
-                    Collections.sort(results);    // if sorting matters
+                    // Collections.sort(results);               // if sorting matters, case sensitive ie A-Z then a-z
+                    results.sort(String::compareToIgnoreCase);  // case insensitive ie Aa-Zz, java 8 only
+                    // TODO: could also remove duplicates when misspelled, ie JavaScript and Javascript
                     for (String item : results) {
                          System.out.println(item);
                     }
