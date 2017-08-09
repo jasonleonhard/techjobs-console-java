@@ -10,7 +10,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 /**
  * Created by LaunchCode
  */
@@ -47,11 +46,15 @@ public class JobData {
     }
 
     public static ArrayList<HashMap<String, String>> findAll() {
-
         // load data, if not already loaded
         loadData();
 
-        return allJobs;
+        // potentially harmful, user can manipulate this
+        // return allJobs;
+
+        // solution, create a copy of the allJobs AL of HM s s
+        ArrayList<HashMap<String, String>> copyOfAllJobs = (ArrayList<HashMap<String, String>>) allJobs.clone();
+        return copyOfAllJobs;
     }
 
     /**
