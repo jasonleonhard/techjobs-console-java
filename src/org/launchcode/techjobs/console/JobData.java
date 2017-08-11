@@ -10,7 +10,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 /**
  * Created by LaunchCode
  */
@@ -47,11 +46,15 @@ public class JobData {
     }
 
     public static ArrayList<HashMap<String, String>> findAll() {
-
         // load data, if not already loaded
         loadData();
 
-        return allJobs;
+        // potentially harmful, user can manipulate this
+        // return allJobs;
+
+        // solution, create a copy of the allJobs AL of HM s s
+        ArrayList<HashMap<String, String>> copyOfAllJobs = (ArrayList<HashMap<String, String>>) allJobs.clone();
+        return copyOfAllJobs;
     }
 
     /**
@@ -65,22 +68,46 @@ public class JobData {
      * @param value Value of teh field to search for
      * @return List of all jobs matching the criteria
      */
-    public static ArrayList<HashMap<String, String>> findByColumnAndValue(String column, String value) {
-
+    public static ArrayList<HashMap<String, String>> findByKeyAndValue(String key, String value) {
         // load data, if not already loaded
         loadData();
-
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
-
         for (HashMap<String, String> row : allJobs) {
-
-            String aValue = row.get(column);
-
-            if (aValue.contains(value)) {
+            String aValue = row.get(key);
+        // Legacy Code Changed:
+        //    if (aValue.contains(value)) {
+        // Case Insensitive version
+            if (aValue.equalsIgnoreCase(value)) {
                 jobs.add(row);
             }
         }
+        return jobs;
+    }
 
+    // 0 search, 0 all
+    // load data, if not already loaded
+    // create AL jobs
+    // loop jobs and create new HM for each i in AL
+    // loop HashMap by Entry (a key value pair in one class) allowing looping over the HashMap.entrySet()
+    // store current ArrayList i into a HashMap map
+    // if HM j matches user value
+    // System.out.println("We found a match for: " + s1);
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+
+        loadData();
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (int i = 0; i <= allJobs.size() - 1; ++i) {
+            HashMap<String, String> map = allJobs.get(i);
+
+            for (HashMap.Entry<String, String> j : allJobs.get(i).entrySet()) {
+
+                if (j.getValue().equalsIgnoreCase(value)) {
+                    jobs.add(map);
+                    // System.out.println(j.getKey() + "=" + j.getValue()); // ~ j
+                }
+            }
+        }
         return jobs;
     }
 
